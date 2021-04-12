@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Kite App</string>
+    <string name="plus_symbol">+</string>
+
+
+    <string name="calories">Калории</string>
+    <string name="proteins">Белки</string>
+    <string name="fats">Жиры</string>
+    <string name="carbohydrates">Углеводы</string>
+    <string name="calories_small">ккал</string>
+    <string name="authorization">Авторизация</string>
+    <string name="weight">Вес (кг)</string>
+    <string name="height">Рост (см)</string>
+    <string name="age">Возраст</string>
+    <string name="sex">Пол</string>
+    <string name="male">Мужчина</string>
+    <string name="female">Женщина</string>
+    <string name="begin">Начать</string>
+    <string name="adding_food">Добавление</string>
+    <string name="name">Название</string>
+
+
+</resources>
