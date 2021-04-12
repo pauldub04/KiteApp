@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.foodapp.db.DbManager;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class FoodFragment extends Fragment {
 
@@ -47,7 +48,7 @@ public class FoodFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_food, container, false);
 
         // add food
-        Button btnAdd = rootView.findViewById(R.id.buttonAdd);
+        FloatingActionButton btnAdd = rootView.findViewById(R.id.buttonAdd);
         btnAdd.setOnClickListener(v -> {
             Intent toAdd = new Intent(getActivity(), AddFood.class);
             startActivity(toAdd);
