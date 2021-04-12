@@ -11,7 +11,7 @@
         android:theme="@style/Theme.FoodApp">
         <activity android:name=".DbTest"></activity>
         <activity android:name=".Authorization" />
-        <activity android:name=".MainActivity2" />
+        <activity android:name=".AddFood" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

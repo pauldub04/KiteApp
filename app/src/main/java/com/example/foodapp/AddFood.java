@@ -1,4 +1,4 @@
-package com.example.foodapp;
+package com.example.foodapp;MainActivity
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,18 +6,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.example.foodapp.db.DbManager;
 
-public class MainActivity2 extends AppCompatActivity {
+public class AddFood extends AppCompatActivity {
 
     private DbManager dbManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.add_food);
         dbManager = new DbManager(this);
     }
 
@@ -44,7 +43,7 @@ public class MainActivity2 extends AppCompatActivity {
                 Integer.parseInt(String.valueOf(pr.getText())), Integer.parseInt(String.valueOf(ft.getText())),
                 Integer.parseInt(String.valueOf(ch.getText())));
 
-        Intent toMain = new Intent(MainActivity2.this, MainActivity.class);
+        Intent toMain = new Intent(AddFood.this, MainActivity.class);
         startActivity(toMain);
 
     }
