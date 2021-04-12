@@ -18,9 +18,9 @@ import com.example.foodapp.db.DbManager;
 
 public class FoodFragment extends Fragment {
 
-    private SharedPreferences prefs;
     boolean isAuth;
 
+    private SharedPreferences prefs;
     private DbManager dbManager;
     private View rootView;
 
@@ -31,21 +31,6 @@ public class FoodFragment extends Fragment {
             Intent toAuth = new Intent(getActivity(), Authorization.class);
             startActivity(toAuth);
         }
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void setValues() {
-        TextView weight = rootView.findViewById(R.id.textViewWeight);
-        TextView height = rootView.findViewById(R.id.textViewHeight);
-        TextView age = rootView.findViewById(R.id.textViewAge);
-        TextView sex = rootView.findViewById(R.id.textViewSex);
-        TextView cal = rootView.findViewById(R.id.textViewCal);
-
-        weight.setText("Вес: " + String.valueOf(prefs.getInt("weight", 0)));
-        height.setText("Рост: " + String.valueOf(prefs.getInt("height", 0)));
-        age.setText("Возраст: " + String.valueOf(prefs.getInt("age", 0)));
-        sex.setText("Пол: " + String.valueOf(prefs.getString("sex", "")));
-        cal.setText("Калории: " + String.valueOf(prefs.getInt("cal", 0)));
     }
 
     @Override
@@ -60,21 +45,6 @@ public class FoodFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_food, container, false);
-
-        setValues();
-
-        // logout
-        Button btnLogOut = rootView.findViewById(R.id.buttonLogOut);
-        btnLogOut.setOnClickListener(v -> {
-            SharedPreferences.Editor editor = getActivity().getSharedPreferences("UserInfo", Context.MODE_PRIVATE).edit();
-            editor.putBoolean("isAuth", false);
-            editor.apply();
-
-            dbManager.clearDatabase();
-
-            Intent refresh = new Intent(getActivity(), MainActivity.class);
-            startActivity(refresh);
-        });
 
         // add food
         Button btnAdd = rootView.findViewById(R.id.buttonAdd);

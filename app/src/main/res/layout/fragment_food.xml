@@ -5,49 +5,6 @@
     android:layout_height="match_parent"
     android:padding="20dp">
 
-
-    <TextView
-        android:id="@+id/textViewWeight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/textViewHeight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/textViewAge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/textViewSex"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/textViewCal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="TextView" />
-
-    <Button
-        android:id="@+id/buttonLogOut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Выход" />
-
     <Button
         android:id="@+id/buttonAdd"
         android:layout_width="wrap_content"
