@@ -14,60 +14,109 @@
             android:gravity="center_horizontal"
             android:padding="20dp">
 
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:id="@+id/textField"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="@string/weight">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    />-->
+
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/textViewRegTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
-                android:text="@string/authorization" />
-
+                android:text="@string/registration" />
             <TextView
-                android:id="@+id/textViewWeight"
-                android:layout_width="match_parent"
-                android:layout_marginTop="30dp"
-                android:layout_height="wrap_content"
-                android:text="@string/weight" />
-
-            <EditText
-                android:id="@+id/editTextWeight"
+                android:id="@+id/textViewRegSubtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="number"
-                android:autofillHints="Вес"
-                tools:ignore="LabelFor" />
+                android:text="@string/reg_description" />
 
-            <TextView
-                android:id="@+id/textViewHeight"
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textFieldName"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_marginTop="20dp"
-                android:layout_height="wrap_content"
-                android:text="@string/height" />
+                android:hint="@string/username">
 
-            <EditText
-                android:id="@+id/editTextHeight"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textFieldAge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="number"
-                android:autofillHints="Рост"
-                tools:ignore="LabelFor" />
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_marginTop="10dp"
+                android:hint="@string/age">
 
-            <TextView
-                android:id="@+id/textViewAge"
-                android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
-                android:layout_height="wrap_content"
-                android:text="@string/age" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextAge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/editTextAge"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="number"
-                android:autofillHints="Возраст"
-                tools:ignore="LabelFor" />
+                android:orientation="horizontal"
+                android:baselineAligned="false">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textFieldWeight"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/weight"
+                    android:layout_marginEnd="5dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextWeight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textFieldHeight"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/height">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextHeight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/textViewSex"
@@ -91,47 +140,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/female" />
-
             </RadioGroup>
 
-            <TextView
-                android:id="@+id/textViewSport"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/menu"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
                 android:layout_height="wrap_content"
-                android:text="Физическая активность" />
-            <RadioGroup
-                android:id="@+id/radioGroupSport"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_marginTop="20dp"
+                android:hint="@string/phys">
 
-                <RadioButton
-                    android:id="@+id/radioButtonSport1"
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Нет физической нагрузки" />
-                <RadioButton
-                    android:id="@+id/radioButtonSport2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="3 раза в неделю" />
-                <RadioButton
-                    android:id="@+id/radioButtonSport3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="5 раза в неделю" />
-                <RadioButton
-                    android:id="@+id/radioButtonSport4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Каждый день" />
-                <RadioButton
-                    android:id="@+id/radioButtonSport5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Каждый день + физическая работа" />
-
-            </RadioGroup>
+                    android:inputType="none"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/buttonAuth"

@@ -23,6 +23,11 @@
     <string name="food">Еда</string>
     <string name="drink">Напитки</string>
     <string name="settings">Настройки</string>
+    <string name="registration">Создание пользователя</string>
+    <string name="reg_description">Укажите свои данные</string>
+    <string name="username">Имя</string>
+    <string name="phys">Физическая активность</string>
+    <string name="create">Создать</string>
 
 
 </resources>
