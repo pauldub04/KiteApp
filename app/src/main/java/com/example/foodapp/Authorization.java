@@ -13,6 +13,25 @@ import android.widget.RadioGroup;
 
 public class Authorization extends AppCompatActivity {
 
+    FormBase nameForm;
+    FormBase weightForm;
+    FormBase heightForm;
+    FormBase ageForm;
+    FormBase sexForm;
+    FormBase physForm;
+
+    FormBase[] forms;
+
+    boolean is_valid() {
+        int validCount = 0;
+        for (FormBase form : forms) {
+            if (form.validate())
+                validCount++;
+        }
+
+        return validCount == forms.length;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,25 +43,18 @@ public class Authorization extends AppCompatActivity {
                 "Каждый день", "Каждый день + физическая работа"};
         menu.setAdapter(new ArrayAdapter<>(this, R.layout.list_item, physOptions));
 
-        FormBase nameForm = new FormBase(this, findViewById(R.id.textFieldName), findViewById(R.id.editTextName));
-        FormBase weightForm = new FormBase(this, findViewById(R.id.textFieldWeight), findViewById(R.id.editTextWeight));
-        FormBase heightForm = new FormBase(this, findViewById(R.id.textFieldHeight), findViewById(R.id.editTextHeight));
-        FormBase ageForm = new FormBase(this, findViewById(R.id.textFieldAge), findViewById(R.id.editTextAge));
-        FormBase sexForm = new FormBase(this, (RadioGroup) findViewById(R.id.radioGroupSex));
-        FormBase physForm = new FormBase(this, menu);
+        nameForm = new FormBase(this, findViewById(R.id.textFieldName), findViewById(R.id.editTextName));
+        weightForm = new FormBase(this, findViewById(R.id.textFieldWeight), findViewById(R.id.editTextWeight));
+        heightForm = new FormBase(this, findViewById(R.id.textFieldHeight), findViewById(R.id.editTextHeight));
+        ageForm = new FormBase(this, findViewById(R.id.textFieldAge), findViewById(R.id.editTextAge));
+        sexForm = new FormBase(this, (RadioGroup) findViewById(R.id.radioGroupSex));
+        physForm = new FormBase(this, menu);
 
-        FormBase[] forms = new FormBase[]{nameForm, weightForm, heightForm, ageForm, sexForm, physForm};
+        forms = new FormBase[]{nameForm, weightForm, heightForm, ageForm, sexForm, physForm};
 
         Button btn = findViewById(R.id.buttonAuth);
         btn.setOnClickListener(v -> {
-
-            int validCount = 0;
-            for (FormBase form : forms) {
-                if (form.validate())
-                    validCount++;
-            }
-
-            if (validCount != forms.length)
+            if (!is_valid())
                 return;
 
             String nameValue = nameForm.getText();
