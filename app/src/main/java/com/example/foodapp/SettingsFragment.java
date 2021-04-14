@@ -32,16 +32,18 @@ public class SettingsFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     private void setValues() {
+        TextView name = rootView.findViewById(R.id.textViewName);
         TextView weight = rootView.findViewById(R.id.textViewWeight);
         TextView height = rootView.findViewById(R.id.textViewHeight);
         TextView age = rootView.findViewById(R.id.textViewAge);
         TextView sex = rootView.findViewById(R.id.textViewSex);
         TextView cal = rootView.findViewById(R.id.textViewCal);
 
+        name.setText(prefs.getString("name", ""));
         weight.setText("Вес: " + String.valueOf(prefs.getInt("weight", 0)));
         height.setText("Рост: " + String.valueOf(prefs.getInt("height", 0)));
         age.setText("Возраст: " + String.valueOf(prefs.getInt("age", 0)));
-        sex.setText("Пол: " + String.valueOf(prefs.getString("sex", "")));
+        sex.setText("Пол: " + prefs.getString("sex", ""));
         cal.setText("Калории: " + String.valueOf(prefs.getInt("cal", 0)));
     }
 

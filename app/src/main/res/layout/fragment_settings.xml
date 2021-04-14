@@ -6,6 +6,13 @@
     android:padding="20dp">
 
     <TextView
+        android:id="@+id/textViewName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="TextView" />
+
+    <TextView
         android:id="@+id/textViewWeight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
