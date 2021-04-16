@@ -56,7 +56,7 @@ public class DbStaticManager {
                     DbConstants.TABLE_STATIC_NAME,   // The table to query
                     null,             // The array of columns to return (pass null to get all)
                     "name LIKE ?",              // The columns for the WHERE clause
-                    new String[] {"%" + s + "%"},          // The values for the WHERE clause
+                    new String[] {s + "%"},          // The values for the WHERE clause
                     null,                   // don't group the rows
                     null,                   // don't filter by row groups
                     null              // The sort order
