@@ -5,14 +5,30 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <EditText
-        android:id="@+id/editTextProduct"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:layout_margin="10dp"
-        android:text="Введите название продукта" />
+        android:orientation="horizontal">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textFieldProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_margin="10dp"
+            app:endIconMode="clear_text"
+            android:hint="@string/product">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextProduct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"

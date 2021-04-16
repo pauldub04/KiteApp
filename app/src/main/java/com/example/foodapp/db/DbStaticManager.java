@@ -39,21 +39,34 @@ public class DbStaticManager {
 //        ip.close();
 //    }
 
-    public void getProducts(ArrayList<ProductState> states) {
-        Cursor cursor = db.query(
-            DbConstants.TABLE_STATIC_NAME,   // The table to query
-            null,             // The array of columns to return (pass null to get all)
-            null,              // The columns for the WHERE clause
-            null,          // The values for the WHERE clause
-            null,                   // don't group the rows
-            null,                   // don't filter by row groups
-            null              // The sort order
-        );
+    public void getProducts(ArrayList<ProductState> states, String s) {
+        Cursor cursor;
+        if (s.isEmpty())
+            cursor = db.query(
+                    DbConstants.TABLE_STATIC_NAME,   // The table to query
+                    null,             // The array of columns to return (pass null to get all)
+                    null,              // The columns for the WHERE clause
+                    null,          // The values for the WHERE clause
+                    null,                   // don't group the rows
+                    null,                   // don't filter by row groups
+                    null              // The sort order
+            );
+        else
+            cursor = db.query(
+                    DbConstants.TABLE_STATIC_NAME,   // The table to query
+                    null,             // The array of columns to return (pass null to get all)
+                    "name LIKE ?",              // The columns for the WHERE clause
+                    new String[] {"%" + s + "%"},          // The values for the WHERE clause
+                    null,                   // don't group the rows
+                    null,                   // don't filter by row groups
+                    null              // The sort order
+            );
+
         //DbConstants.COLUMN_NAME
 
         while(cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndex(DbConstants.COLUMN_NAME));
-            name = name.substring(0, Math.min(name.length(), 30));
+//            name = name.substring(0, Math.min(name.length(), 30));
             float cl = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_CALORIES));
             float pr = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_PROTEINS));
             float ft = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_FATS));

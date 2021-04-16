@@ -70,7 +70,7 @@ public class ProductStateAdapter extends RecyclerView.Adapter<ProductStateAdapte
 
                             DbManager dbManager = new DbManager(context);
                             dbManager.openDb();
-                            
+
                             float g = Float.parseFloat(String.valueOf(e.getText()));
 
                             String name = holder.name.getText().toString();
