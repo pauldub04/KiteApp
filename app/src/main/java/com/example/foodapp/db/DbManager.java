@@ -24,20 +24,20 @@ public class DbManager {
 
     public void insert(String name, int calories, int proteins, int fats, int carbohydrates) {
         ContentValues values = new ContentValues();
-        values.put(DbConstants.COLUMN_NAME_NAME, name);
-        values.put(DbConstants.COLUMN_NAME_CALORIES, calories);
-        values.put(DbConstants.COLUMN_NAME_PROTEINS, proteins);
-        values.put(DbConstants.COLUMN_NAME_FATS, fats);
-        values.put(DbConstants.COLUMN_NAME_CARBOHYDRATES, carbohydrates);
+        values.put(DbConstants.COLUMN_NAME, name);
+        values.put(DbConstants.COLUMN_CALORIES, calories);
+        values.put(DbConstants.COLUMN_PROTEINS, proteins);
+        values.put(DbConstants.COLUMN_FATS, fats);
+        values.put(DbConstants.COLUMN_CARBOHYDRATES, carbohydrates);
 //        values.put(DbConstants.COLUMN_NAME_DATE, date);
 
 //        long newRowId =
-        db.insert(DbConstants.TABLE_NAME, null, values);
+        db.insert(DbConstants.TABLE_MAIN_NAME, null, values);
     }
 
     public List<String> getFromDb() {
         Cursor cursor = db.query(
-                DbConstants.TABLE_NAME,   // The table to query
+                DbConstants.TABLE_MAIN_NAME,   // The table to query
                 null,             // The array of columns to return (pass null to get all)
                 null,              // The columns for the WHERE clause
                 null,          // The values for the WHERE clause
@@ -48,11 +48,11 @@ public class DbManager {
 
         List<String> tmp = new ArrayList<>();
         while(cursor.moveToNext()) {
-            String name = cursor.getString(cursor.getColumnIndex(DbConstants.COLUMN_NAME_NAME));
-            String cl = cursor.getString(cursor.getColumnIndex(DbConstants.COLUMN_NAME_CALORIES));
-            String pr = cursor.getString(cursor.getColumnIndex(DbConstants.COLUMN_NAME_PROTEINS));
-            String ft = cursor.getString(cursor.getColumnIndex(DbConstants.COLUMN_NAME_FATS));
-            String ch = cursor.getString(cursor.getColumnIndex(DbConstants.COLUMN_NAME_CARBOHYDRATES));
+            String name = cursor.getString(cursor.getColumnIndex(DbConstants.COLUMN_NAME));
+            String cl = cursor.getString(cursor.getColumnIndex(DbConstants.COLUMN_CALORIES));
+            String pr = cursor.getString(cursor.getColumnIndex(DbConstants.COLUMN_PROTEINS));
+            String ft = cursor.getString(cursor.getColumnIndex(DbConstants.COLUMN_FATS));
+            String ch = cursor.getString(cursor.getColumnIndex(DbConstants.COLUMN_CARBOHYDRATES));
 
             tmp.add(name + " к: " + cl + " б: " + pr + " ж: " + ft + " у: " + ch);
         }
@@ -66,7 +66,7 @@ public class DbManager {
     }
 
     public void clearDatabase() {
-        String clearDBQuery = "DELETE FROM " + DbConstants.TABLE_NAME;
+        String clearDBQuery = "DELETE FROM " + DbConstants.TABLE_MAIN_NAME;
         db.execSQL(clearDBQuery);
     }
 

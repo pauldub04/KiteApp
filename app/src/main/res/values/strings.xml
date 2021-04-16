@@ -29,6 +29,7 @@
     <string name="phys">Физическая активность</string>
     <string name="create">Создать</string>
     <string name="save">Сохранить</string>
+    <string name="product">Название продукта</string>
 
 
 </resources>

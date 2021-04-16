@@ -50,7 +50,7 @@ public class FoodFragment extends Fragment {
         // add food
         FloatingActionButton btnAdd = rootView.findViewById(R.id.buttonAdd);
         btnAdd.setOnClickListener(v -> {
-            Intent toAdd = new Intent(getActivity(), AddFood.class);
+            Intent toAdd = new Intent(getActivity(), AddFoodNew.class);
             startActivity(toAdd);
         });
 

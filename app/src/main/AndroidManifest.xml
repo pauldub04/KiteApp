@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FoodApp">
-        <activity android:name=".DbTest"></activity>
+        <activity android:name=".AddFoodNew"></activity>
         <activity android:name=".Authorization" />
         <activity android:name=".AddFood" />
         <activity android:name=".MainActivity">
