@@ -3,6 +3,7 @@ package com.example.foodapp;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.foodapp.db.DbManager;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -65,16 +67,28 @@ public class ProductStateAdapter extends RecyclerView.Adapter<ProductStateAdapte
                     .setPositiveButton("Добавить", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            Log.d("KEK", String.valueOf(e.getText()));
-                            addFood();
+
+                            DbManager dbManager = new DbManager(context);
+                            dbManager.openDb();
+                            
+                            float g = Float.parseFloat(String.valueOf(e.getText()));
+
+                            String name = holder.name.getText().toString();
+                            float cal = curState.getCalories() / 100.0f * g;
+                            float pr = curState.getProteins() / 100.0f * g;
+                            float ft = curState.getFats() / 100.0f * g;
+                            float ch = curState.getCarbohydrates() / 100.0f * g;
+
+                            dbManager.insertProduct(name, cal, pr, ft, ch);
+
+                            dbManager.closeDb();
+
+                            Intent toMain = new Intent(context, MainActivity.class);
+                            context.startActivity(toMain);
                         }
                     })
                 .show();
         });
-    }
-
-    void addFood() {
-
     }
 
     @Override

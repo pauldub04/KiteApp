@@ -39,9 +39,9 @@ public class AddFood extends AppCompatActivity {
         EditText ft = findViewById(R.id.editTextFats);
         EditText ch = findViewById(R.id.editTextCarbohydrates);
 
-        dbManager.insert(name.getText().toString(), Integer.parseInt(String.valueOf(cal.getText())),
-                Integer.parseInt(String.valueOf(pr.getText())), Integer.parseInt(String.valueOf(ft.getText())),
-                Integer.parseInt(String.valueOf(ch.getText())));
+        dbManager.insertProduct(name.getText().toString(), Float.parseFloat(String.valueOf(cal.getText())),
+                Float.parseFloat(String.valueOf(pr.getText())), Float.parseFloat(String.valueOf(ft.getText())),
+                Float.parseFloat(String.valueOf(ch.getText())));
 
         Intent toMain = new Intent(AddFood.this, MainActivity.class);
         startActivity(toMain);

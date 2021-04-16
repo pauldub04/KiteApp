@@ -22,16 +22,14 @@ public class DbManager {
         db = dbHelper.getWritableDatabase();
     }
 
-    public void insert(String name, int calories, int proteins, int fats, int carbohydrates) {
+    public void insertProduct(String name, float calories, float proteins, float fats, float carbohydrates) {
         ContentValues values = new ContentValues();
         values.put(DbConstants.COLUMN_NAME, name);
         values.put(DbConstants.COLUMN_CALORIES, calories);
         values.put(DbConstants.COLUMN_PROTEINS, proteins);
         values.put(DbConstants.COLUMN_FATS, fats);
         values.put(DbConstants.COLUMN_CARBOHYDRATES, carbohydrates);
-//        values.put(DbConstants.COLUMN_NAME_DATE, date);
 
-//        long newRowId =
         db.insert(DbConstants.TABLE_MAIN_NAME, null, values);
     }
 
