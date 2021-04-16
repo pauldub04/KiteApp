@@ -37,7 +37,7 @@ public class AddFoodNew extends AppCompatActivity {
     }
 
     public void updateAdapter() {
-        recyclerView.setAdapter(new ProductStateAdapter(states, getLayoutInflater()));
+        recyclerView.setAdapter(new ProductStateAdapter(this, states, getLayoutInflater()));
     }
 
     @Override

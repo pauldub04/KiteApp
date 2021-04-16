@@ -1,13 +1,24 @@
 package com.example.foodapp;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.text.InputType;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
 
@@ -15,8 +26,10 @@ public class ProductStateAdapter extends RecyclerView.Adapter<ProductStateAdapte
 
     private final List<ProductState> stateList;
     private final LayoutInflater layoutInflater;
+    private final Context context;
 
-    public ProductStateAdapter(List<ProductState> stateList, LayoutInflater layoutInflater) {
+    public ProductStateAdapter(Context context, List<ProductState> stateList, LayoutInflater layoutInflater) {
+        this.context = context;
         this.stateList = stateList;
         this.layoutInflater = layoutInflater;
     }
@@ -37,6 +50,31 @@ public class ProductStateAdapter extends RecyclerView.Adapter<ProductStateAdapte
         holder.proteins.setText("Белки: " + curState.getProteins());
         holder.fats.setText("Жиры: " + curState.getFats());
         holder.carbohydrates.setText("Углеводы: " + curState.getCarbohydrates());
+
+        holder.add.setOnClickListener(v -> {
+
+            TextInputEditText e = new TextInputEditText(context);
+            e.setInputType(InputType.TYPE_CLASS_NUMBER);
+            e.setText("100");
+
+            new MaterialAlertDialogBuilder(context)
+                    .setTitle("Добавление продукта")
+                    .setMessage("Введите вес в граммах: ")
+                    .setView(e)
+                    .setNeutralButton("Отмена", null)
+                    .setPositiveButton("Добавить", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Log.d("KEK", String.valueOf(e.getText()));
+                            addFood();
+                        }
+                    })
+                .show();
+        });
+    }
+
+    void addFood() {
+
     }
 
     @Override
@@ -47,6 +85,7 @@ public class ProductStateAdapter extends RecyclerView.Adapter<ProductStateAdapte
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         final TextView name, calories, proteins, fats, carbohydrates;
+        final Button add;
 
         ViewHolder(View view) {
             super(view);
@@ -55,6 +94,8 @@ public class ProductStateAdapter extends RecyclerView.Adapter<ProductStateAdapte
             this.proteins = view.findViewById(R.id.textProductProteins);
             this.fats = view.findViewById(R.id.textProductFats);
             this.carbohydrates = view.findViewById(R.id.textProductCarbohydrates);
+
+            this.add = view.findViewById(R.id.buttonAdd);
         }
     }
 }
