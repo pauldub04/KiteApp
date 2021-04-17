@@ -1,6 +1,5 @@
 package com.example.foodapp;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.foodapp.db.DbManager;
@@ -50,7 +48,7 @@ public class FoodFragment extends Fragment {
         // add food
         FloatingActionButton btnAdd = rootView.findViewById(R.id.buttonAdd);
         btnAdd.setOnClickListener(v -> {
-            Intent toAdd = new Intent(getActivity(), AddFoodNew.class);
+            Intent toAdd = new Intent(getActivity(), AddFoodActivity.class);
             startActivity(toAdd);
         });
 

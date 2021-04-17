@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 
 import com.example.foodapp.db.DbStaticManager;
 import com.google.android.material.textfield.TextInputEditText;
@@ -14,7 +13,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class AddFoodNew extends AppCompatActivity {
+public class AddFoodActivity extends AppCompatActivity {
 
     private DbStaticManager dbManager;
 
@@ -24,7 +23,7 @@ public class AddFoodNew extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_food_new);
+        setContentView(R.layout.activity_add_food);
 
         dbManager = new DbStaticManager(this);
         try {

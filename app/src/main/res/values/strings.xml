@@ -30,6 +30,9 @@
     <string name="create">Создать</string>
     <string name="save">Сохранить</string>
     <string name="product">Название продукта</string>
+    <string name="time">Время</string>
+    <string name="grams">Граммы</string>
+    <string name="plus">+</string>
 
 
 </resources>

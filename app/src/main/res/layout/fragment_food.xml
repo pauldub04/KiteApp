@@ -25,11 +25,12 @@
         android:id="@+id/buttonAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|center"
         android:layout_margin="16dp"
         android:contentDescription="@string/adding_food"
         app:srcCompat="@drawable/ic_add_black_24dp"
-        tools:ignore="RtlHardcoded,VectorDrawableCompat" />
+        tools:ignore="RtlHardcoded,VectorDrawableCompat"
+        />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

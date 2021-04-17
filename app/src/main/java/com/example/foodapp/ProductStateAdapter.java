@@ -2,17 +2,12 @@ package com.example.foodapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.InputType;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,7 +34,7 @@ public class ProductStateAdapter extends RecyclerView.Adapter<ProductStateAdapte
     @NonNull
     @Override
     public ProductStateAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = layoutInflater.inflate(R.layout.product_block, parent, false);
+        View view = layoutInflater.inflate(R.layout.product_add_block, parent, false);
         return new ProductStateAdapter.ViewHolder(view);
     }
 
@@ -64,30 +59,26 @@ public class ProductStateAdapter extends RecyclerView.Adapter<ProductStateAdapte
                     .setMessage("Введите вес в граммах: ")
                     .setView(e)
                     .setNeutralButton("Отмена", null)
-                    .setPositiveButton("Добавить", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
+                    .setPositiveButton("Добавить", (dialogInterface, i) -> {
+                        DbManager dbManager = new DbManager(context);
+                        dbManager.openDb();
 
-                            DbManager dbManager = new DbManager(context);
-                            dbManager.openDb();
+                        float g = Float.parseFloat(String.valueOf(e.getText()));
 
-                            float g = Float.parseFloat(String.valueOf(e.getText()));
+                        String name = holder.name.getText().toString();
+                        float cal = curState.getCalories() / 100.0f * g;
+                        float pr = curState.getProteins() / 100.0f * g;
+                        float ft = curState.getFats() / 100.0f * g;
+                        float ch = curState.getCarbohydrates() / 100.0f * g;
 
-                            String name = holder.name.getText().toString();
-                            float cal = curState.getCalories() / 100.0f * g;
-                            float pr = curState.getProteins() / 100.0f * g;
-                            float ft = curState.getFats() / 100.0f * g;
-                            float ch = curState.getCarbohydrates() / 100.0f * g;
+                        dbManager.insertProduct(name, cal, pr, ft, ch);
 
-                            dbManager.insertProduct(name, cal, pr, ft, ch);
+                        dbManager.closeDb();
 
-                            dbManager.closeDb();
-
-                            Intent toMain = new Intent(context, MainActivity.class);
-                            context.startActivity(toMain);
-                        }
+                        Intent toMain = new Intent(context, MainActivity.class);
+                        context.startActivity(toMain);
                     })
-                .show();
+            .show();
         });
     }
 
