@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import com.example.foodapp.db.DbManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+
 public class FoodFragment extends Fragment {
 
     boolean isAuth;
@@ -22,6 +25,9 @@ public class FoodFragment extends Fragment {
     private SharedPreferences prefs;
     private DbManager dbManager;
     private View rootView;
+
+    ArrayList<ProductState> states = new ArrayList<>();
+    RecyclerView recyclerView;
 
     private void checkAuth() {
         isAuth = prefs.getBoolean("isAuth", false);
@@ -55,18 +61,23 @@ public class FoodFragment extends Fragment {
         return rootView;
     }
 
+    public void updateProducts() {
+        states.clear();
+        dbManager.getFood(states);
+        updateAdapter();
+    }
+
+    public void updateAdapter() {
+        recyclerView.setAdapter(new FoodStateAdapter(getContext(), states, getLayoutInflater()));
+    }
+
     @Override
     public void onResume() {
         super.onResume();
         dbManager.openDb();
 
-        TextView t = rootView.findViewById(R.id.textViewMain);
-        t.setText("");
-        for (String str : dbManager.getFromDb()) {
-            t.append(str);
-            t.append("\n");
-        }
-
+        recyclerView = rootView.findViewById(R.id.recycleFood);
+        updateProducts();
     }
 
     @Override

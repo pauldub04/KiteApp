@@ -43,10 +43,10 @@ public class ProductStateAdapter extends RecyclerView.Adapter<ProductStateAdapte
     public void onBindViewHolder(@NonNull ProductStateAdapter.ViewHolder holder, int position) {
         ProductState curState = stateList.get(position);
         holder.name.setText(curState.getName());
-        holder.calories.setText("Калории: " + curState.getCalories());
-        holder.proteins.setText("Белки: " + curState.getProteins());
-        holder.fats.setText("Жиры: " + curState.getFats());
-        holder.carbohydrates.setText("Углеводы: " + curState.getCarbohydrates());
+        holder.calories.setText(Math.round(curState.getCalories()) + "ккал");
+        holder.proteins.setText("Белки: " + Math.round(curState.getProteins()) + "г");
+        holder.fats.setText("Жиры: " + Math.round(curState.getFats()) + "г");
+        holder.carbohydrates.setText("Углеводы: " + Math.round(curState.getCarbohydrates()) + "г");
 
         holder.add.setOnClickListener(v -> {
 
@@ -71,8 +71,7 @@ public class ProductStateAdapter extends RecyclerView.Adapter<ProductStateAdapte
                         float ft = curState.getFats() / 100.0f * g;
                         float ch = curState.getCarbohydrates() / 100.0f * g;
 
-                        dbManager.insertProduct(name, cal, pr, ft, ch);
-
+                        dbManager.insertProduct(name, cal, pr, ft, ch, g);
                         dbManager.closeDb();
 
                         Intent toMain = new Intent(context, MainActivity.class);

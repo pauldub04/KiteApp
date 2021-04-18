@@ -25,20 +25,6 @@ public class DbStaticManager {
         dbHelper.copyDb();
     }
 
-//    public void copyDb() throws IOException{
-//        InputStream ip = context.getAssets().open(DbConstants.DB_NAME + ".db");
-//        String op = DbConstants.DB_PATH + DbConstants.DB_NAME;
-//        OutputStream output = new FileOutputStream(op);
-//        byte[] buffer = new byte[1024];
-//        int length;
-//        while ((length = ip.read(buffer)) > 0){
-//            output.write(buffer, 0, length);
-//        }
-//        output.flush();
-//        output.close();
-//        ip.close();
-//    }
-
     public void getProducts(ArrayList<ProductState> states, String s) {
         Cursor cursor;
         if (s.isEmpty())
@@ -66,13 +52,13 @@ public class DbStaticManager {
 
         while(cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndex(DbConstants.COLUMN_NAME));
-//            name = name.substring(0, Math.min(name.length(), 30));
+            name = name.substring(0, Math.min(name.length(), 30));
             float cl = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_CALORIES));
             float pr = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_PROTEINS));
             float ft = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_FATS));
             float ch = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_CARBOHYDRATES));
 
-            states.add(new ProductState(name, cl, pr, ft, ch));
+            states.add(new ProductState(name, cl, pr, ft, ch, 0));
         }
         cursor.close();
     }

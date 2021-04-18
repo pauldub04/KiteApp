@@ -13,7 +13,7 @@
         android:padding="10dp"
         >
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textFoodName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -21,32 +21,38 @@
             android:text="@string/product" />
 
         <TextView
-            android:id="@+id/textViewTime"
+            android:id="@+id/textFoodTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:textSize="13sp"
             android:text="@string/time" />
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textViewCal"
+        android:id="@+id/textFoodCalories"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/calories" />
+        android:textSize="16sp"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/calories"
+        />
 
     <TextView
-        android:id="@+id/textViewGrams"
+        android:id="@+id/textFoodGrams"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:textSize="16sp"
         android:text="@string/grams" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonSettings"
         android:layout_width="0dp"
         android:layout_weight="0.5"
         android:layout_height="wrap_content"

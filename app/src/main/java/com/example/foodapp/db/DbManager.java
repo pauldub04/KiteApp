@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.foodapp.ProductState;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,18 +24,19 @@ public class DbManager {
         db = dbHelper.getWritableDatabase();
     }
 
-    public void insertProduct(String name, float calories, float proteins, float fats, float carbohydrates) {
+    public void insertProduct(String name, float calories, float proteins, float fats, float carbohydrates, float grams) {
         ContentValues values = new ContentValues();
         values.put(DbConstants.COLUMN_NAME, name);
         values.put(DbConstants.COLUMN_CALORIES, calories);
         values.put(DbConstants.COLUMN_PROTEINS, proteins);
         values.put(DbConstants.COLUMN_FATS, fats);
         values.put(DbConstants.COLUMN_CARBOHYDRATES, carbohydrates);
+        values.put(DbConstants.COLUMN_GRAMS, grams);
 
         db.insert(DbConstants.TABLE_MAIN_NAME, null, values);
     }
 
-    public List<String> getFromDb() {
+    public void getFood(ArrayList<ProductState> states) {
         Cursor cursor = db.query(
                 DbConstants.TABLE_MAIN_NAME,   // The table to query
                 null,             // The array of columns to return (pass null to get all)
@@ -44,19 +47,16 @@ public class DbManager {
                 null               // The sort order
         );
 
-        List<String> tmp = new ArrayList<>();
         while(cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndex(DbConstants.COLUMN_NAME));
-            String cl = cursor.getString(cursor.getColumnIndex(DbConstants.COLUMN_CALORIES));
-            String pr = cursor.getString(cursor.getColumnIndex(DbConstants.COLUMN_PROTEINS));
-            String ft = cursor.getString(cursor.getColumnIndex(DbConstants.COLUMN_FATS));
-            String ch = cursor.getString(cursor.getColumnIndex(DbConstants.COLUMN_CARBOHYDRATES));
+//            name = name.substring(0, Math.min(name.length(), 30));
+            float cl = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_CALORIES));
+            float g = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_GRAMS));
 
-            tmp.add(name + " к: " + cl + " б: " + pr + " ж: " + ft + " у: " + ch);
+            states.add(new ProductState(name, cl, 0, 0, 0, g));
         }
         cursor.close();
 
-        return tmp;
     }
 
     public void closeDb() {
