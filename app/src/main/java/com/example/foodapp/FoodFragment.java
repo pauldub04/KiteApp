@@ -56,6 +56,7 @@ public class FoodFragment extends Fragment {
         btnAdd.setOnClickListener(v -> {
             Intent toAdd = new Intent(getActivity(), AddFoodActivity.class);
             startActivity(toAdd);
+
         });
 
         return rootView;
