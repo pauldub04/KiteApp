@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
+    >
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight="2"
+        android:layout_weight="2.3"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp"
-        >
+        android:layout_gravity="center"
+        android:paddingRight="10dp"
+        android:paddingEnd="10dp"
+        tools:ignore="RtlSymmetry">
         <TextView
             android:id="@+id/textFoodName"
             android:layout_width="wrap_content"
@@ -37,15 +42,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="16sp"
-        android:layout_marginRight="10dp"
-        android:layout_marginEnd="10dp"
         android:text="@string/calories"
-        />
+        android:layout_marginEnd="10dp" />
 
     <TextView
         android:id="@+id/textFoodGrams"
         android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.8"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="16sp"

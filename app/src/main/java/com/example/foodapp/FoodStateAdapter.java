@@ -2,6 +2,8 @@ package com.example.foodapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.foodapp.db.DbManager;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class FoodStateAdapter extends RecyclerView.Adapter<FoodStateAdapter.ViewHolder> {
@@ -19,11 +26,13 @@ public class FoodStateAdapter extends RecyclerView.Adapter<FoodStateAdapter.View
     private final List<ProductState> stateList;
     private final LayoutInflater layoutInflater;
     private final Context context;
+    private final RecyclerView recyclerView;
 
-    public FoodStateAdapter(Context context, List<ProductState> stateList, LayoutInflater layoutInflater) {
+    public FoodStateAdapter(Context context, List<ProductState> stateList, LayoutInflater layoutInflater, RecyclerView recyclerView) {
         this.context = context;
         this.stateList = stateList;
         this.layoutInflater = layoutInflater;
+        this.recyclerView = recyclerView;
     }
 
     @NonNull
@@ -43,36 +52,53 @@ public class FoodStateAdapter extends RecyclerView.Adapter<FoodStateAdapter.View
         holder.grams.setText(Math.round(curState.getGrams()) + "г");
 
         holder.settings.setOnClickListener(v -> {
-            Log.d("KEK", "change");
-//            TextInputEditText e = new TextInputEditText(context);
-//            e.setInputType(InputType.TYPE_CLASS_NUMBER);
-//            e.setText("100");
-//
-//            new MaterialAlertDialogBuilder(context)
-//                    .setTitle("Добавление продукта")
-//                    .setMessage("Введите вес в граммах: ")
-//                    .setView(e)
-//                    .setNeutralButton("Отмена", null)
-//                    .setPositiveButton("Добавить", (dialogInterface, i) -> {
-//                        DbManager dbManager = new DbManager(context);
-//                        dbManager.openDb();
-//
-//                        float g = Float.parseFloat(String.valueOf(e.getText()));
-//
-//                        String name = holder.name.getText().toString();
-//                        float cal = curState.getCalories() / 100.0f * g;
-//                        float pr = curState.getProteins() / 100.0f * g;
-//                        float ft = curState.getFats() / 100.0f * g;
-//                        float ch = curState.getCarbohydrates() / 100.0f * g;
-//
-//                        dbManager.insertProduct(name, cal, pr, ft, ch);
-//
-//                        dbManager.closeDb();
-//
-//                        Intent toMain = new Intent(context, MainActivity.class);
-//                        context.startActivity(toMain);
-//                    })
-//                    .show();
+
+
+            TextInputEditText e = new TextInputEditText(context);
+            e.setInputType(InputType.TYPE_CLASS_NUMBER);
+            e.setText(Math.round(curState.getGrams()) + "");
+
+            int id = curState.getId();
+
+            new MaterialAlertDialogBuilder(context)
+                    .setTitle(holder.name.getText().toString())
+                    .setMessage("Масса в граммах: ")
+                    .setView(e)
+                    .setNeutralButton("Отмена", null)
+                    .setNegativeButton("Удалить", (dialogInterface, i) -> {
+                        DbManager dbManager = new DbManager(context);
+                        dbManager.openDb();
+                        dbManager.deleteProduct(id);
+
+                        stateList.clear();
+                        dbManager.getFood((ArrayList<ProductState>) stateList);
+                        recyclerView.setAdapter(new FoodStateAdapter(context, stateList, layoutInflater, recyclerView));
+
+                        dbManager.closeDb();
+                    })
+                    .setPositiveButton("Изменить", (dialogInterface, i) -> {
+
+                        float olg_g = curState.getGrams();
+                        float new_g = Float.parseFloat(String.valueOf(e.getText()));
+
+                        String name = holder.name.getText().toString();
+                        float cal = curState.getCalories() / olg_g * new_g;
+                        float pr = curState.getProteins() / olg_g * new_g;
+                        float ft = curState.getFats() / olg_g * new_g;
+                        float ch = curState.getCarbohydrates() / olg_g * new_g;
+
+                        DbManager dbManager = new DbManager(context);
+                        dbManager.openDb();
+                        dbManager.updateProduct(id, name, cal, pr, ft, ch, new_g);
+
+                        stateList.clear();
+                        dbManager.getFood((ArrayList<ProductState>) stateList);
+                        recyclerView.setAdapter(new FoodStateAdapter(context, stateList, layoutInflater, recyclerView));
+
+                        dbManager.closeDb();
+                    })
+                    .show();
+
         });
     }
 

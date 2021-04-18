@@ -9,7 +9,7 @@ public class DbConstants {
     public static final String TABLE_MAIN_NAME = "eaten";
 
     public static final int DB_STATIC_VERSION = 1;
-    public static final int DB_MAIN_VERSION = 2;
+    public static final int DB_MAIN_VERSION = 3;
 
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_CALORIES = "calories";
@@ -22,7 +22,7 @@ public class DbConstants {
 
     public static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + TABLE_MAIN_NAME + " (" +
-                    _ID + " INTEGER PRIMARY KEY," +
+                    _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     COLUMN_NAME + " TEXT," +
                     COLUMN_CALORIES + " REAL," +
                     COLUMN_PROTEINS + " REAL," +

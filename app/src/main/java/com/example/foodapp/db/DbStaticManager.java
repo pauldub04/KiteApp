@@ -57,8 +57,9 @@ public class DbStaticManager {
             float pr = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_PROTEINS));
             float ft = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_FATS));
             float ch = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_CARBOHYDRATES));
+            int id = cursor.getInt(cursor.getColumnIndex(DbConstants._ID));
 
-            states.add(new ProductState(name, cl, pr, ft, ch, 0));
+            states.add(new ProductState(id, name, cl, pr, ft, ch, 0));
         }
         cursor.close();
     }

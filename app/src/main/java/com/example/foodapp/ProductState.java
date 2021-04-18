@@ -2,13 +2,15 @@ package com.example.foodapp;
 
 public class ProductState {
     private final String name;
+    private final int id;
     private final float calories;
     private final float proteins;
     private final float fats;
     private final float carbohydrates;
     private final float grams;
 
-    public ProductState(String name, float calories, float proteins, float fats, float carbohydrates, float grams) {
+    public ProductState(int id, String name, float calories, float proteins, float fats, float carbohydrates, float grams) {
+        this.id = id;
         this.name = name;
         this.calories = calories;
         this.proteins = proteins;
@@ -28,8 +30,7 @@ public class ProductState {
     public float getCarbohydrates() {
         return carbohydrates;
     }
-    public float getGrams() {
-        return grams;
-    }
+    public float getGrams() { return grams; }
+    public int getId() { return id; }
 
 }

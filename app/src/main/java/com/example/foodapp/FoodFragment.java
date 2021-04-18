@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.foodapp.db.DbManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class FoodFragment extends Fragment {
 
@@ -41,7 +41,7 @@ public class FoodFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        prefs = getActivity().getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+        prefs = Objects.requireNonNull(getActivity()).getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
         dbManager = new DbManager(getActivity());
 
         checkAuth();
@@ -61,14 +61,14 @@ public class FoodFragment extends Fragment {
         return rootView;
     }
 
-    public void updateProducts() {
+    public void updateFood() {
         states.clear();
         dbManager.getFood(states);
         updateAdapter();
     }
 
     public void updateAdapter() {
-        recyclerView.setAdapter(new FoodStateAdapter(getContext(), states, getLayoutInflater()));
+        recyclerView.setAdapter(new FoodStateAdapter(getContext(), states, getLayoutInflater(), recyclerView));
     }
 
     @Override
@@ -77,7 +77,7 @@ public class FoodFragment extends Fragment {
         dbManager.openDb();
 
         recyclerView = rootView.findViewById(R.id.recycleFood);
-        updateProducts();
+        updateFood();
     }
 
     @Override

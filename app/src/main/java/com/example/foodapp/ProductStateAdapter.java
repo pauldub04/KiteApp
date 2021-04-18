@@ -56,7 +56,7 @@ public class ProductStateAdapter extends RecyclerView.Adapter<ProductStateAdapte
 
             new MaterialAlertDialogBuilder(context)
                     .setTitle("Добавление продукта")
-                    .setMessage("Введите вес в граммах: ")
+                    .setMessage("Введите массу в граммах: ")
                     .setView(e)
                     .setNeutralButton("Отмена", null)
                     .setPositiveButton("Добавить", (dialogInterface, i) -> {

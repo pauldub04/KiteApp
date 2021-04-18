@@ -36,6 +36,23 @@ public class DbManager {
         db.insert(DbConstants.TABLE_MAIN_NAME, null, values);
     }
 
+    public void updateProduct(int id, String name, float calories, float proteins, float fats, float carbohydrates, float grams) {
+        ContentValues values = new ContentValues();
+        values.put(DbConstants.COLUMN_NAME, name);
+        values.put(DbConstants.COLUMN_CALORIES, calories);
+        values.put(DbConstants.COLUMN_PROTEINS, proteins);
+        values.put(DbConstants.COLUMN_FATS, fats);
+        values.put(DbConstants.COLUMN_CARBOHYDRATES, carbohydrates);
+        values.put(DbConstants.COLUMN_GRAMS, grams);
+
+//        db.insert(DbConstants.TABLE_MAIN_NAME, null, values);
+        db.update(DbConstants.TABLE_MAIN_NAME, values, "_id=?", new String[]{id + ""});
+    }
+
+    public void deleteProduct(int id) {
+        db.delete(DbConstants.TABLE_MAIN_NAME, "_id=?", new String[]{id + ""});
+    }
+
     public void getFood(ArrayList<ProductState> states) {
         Cursor cursor = db.query(
                 DbConstants.TABLE_MAIN_NAME,   // The table to query
@@ -52,8 +69,9 @@ public class DbManager {
 //            name = name.substring(0, Math.min(name.length(), 30));
             float cl = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_CALORIES));
             float g = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_GRAMS));
+            int id = cursor.getInt(cursor.getColumnIndex(DbConstants._ID));
 
-            states.add(new ProductState(name, cl, 0, 0, 0, g));
+            states.add(new ProductState(id, name, cl, 0, 0, 0, g));
         }
         cursor.close();
 
