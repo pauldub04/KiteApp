@@ -25,10 +25,17 @@ public class ProductStateAdapter extends RecyclerView.Adapter<ProductStateAdapte
     private final LayoutInflater layoutInflater;
     private final Context context;
 
-    public ProductStateAdapter(Context context, List<ProductState> stateList, LayoutInflater layoutInflater) {
+    interface OnStateClickListener {
+        void onClickAdd(ProductState state, int pos, ProductStateAdapter.ViewHolder holder);
+    }
+    private final OnStateClickListener onStateClickListener;
+
+    public ProductStateAdapter(Context context, List<ProductState> stateList,
+                               LayoutInflater layoutInflater, OnStateClickListener onStateClickListener) {
         this.context = context;
         this.stateList = stateList;
         this.layoutInflater = layoutInflater;
+        this.onStateClickListener = onStateClickListener;
     }
 
     @NonNull
@@ -49,35 +56,7 @@ public class ProductStateAdapter extends RecyclerView.Adapter<ProductStateAdapte
         holder.carbohydrates.setText("Углеводы: " + Math.round(curState.getCarbohydrates()) + "г");
 
         holder.add.setOnClickListener(v -> {
-
-            TextInputEditText e = new TextInputEditText(context);
-            e.setInputType(InputType.TYPE_CLASS_NUMBER);
-            e.setText("100");
-
-            new MaterialAlertDialogBuilder(context)
-                    .setTitle("Добавление продукта")
-                    .setMessage("Введите массу в граммах: ")
-                    .setView(e)
-                    .setNeutralButton("Отмена", null)
-                    .setPositiveButton("Добавить", (dialogInterface, i) -> {
-                        DbManager dbManager = new DbManager(context);
-                        dbManager.openDb();
-
-                        float g = Float.parseFloat(String.valueOf(e.getText()));
-
-                        String name = holder.name.getText().toString();
-                        float cal = curState.getCalories() / 100.0f * g;
-                        float pr = curState.getProteins() / 100.0f * g;
-                        float ft = curState.getFats() / 100.0f * g;
-                        float ch = curState.getCarbohydrates() / 100.0f * g;
-
-                        dbManager.insertProduct(name, cal, pr, ft, ch, g);
-                        dbManager.closeDb();
-
-                        Intent toMain = new Intent(context, MainActivity.class);
-                        context.startActivity(toMain);
-                    })
-            .show();
+            onStateClickListener.onClickAdd(curState, position, holder);
         });
     }
 

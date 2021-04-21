@@ -2,9 +2,7 @@ package com.example.foodapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,11 +26,18 @@ public class FoodStateAdapter extends RecyclerView.Adapter<FoodStateAdapter.View
     private final Context context;
     private final RecyclerView recyclerView;
 
-    public FoodStateAdapter(Context context, List<ProductState> stateList, LayoutInflater layoutInflater, RecyclerView recyclerView) {
+    interface OnStateClickListener {
+        void onClickSettings(ProductState state, int pos, FoodStateAdapter.ViewHolder holder);
+    }
+    private final OnStateClickListener onStateClickListener;
+
+    public FoodStateAdapter(Context context, List<ProductState> stateList,
+                            LayoutInflater layoutInflater, RecyclerView recyclerView, OnStateClickListener onStateClickListener) {
         this.context = context;
         this.stateList = stateList;
         this.layoutInflater = layoutInflater;
         this.recyclerView = recyclerView;
+        this.onStateClickListener = onStateClickListener;
     }
 
     @NonNull
@@ -47,58 +52,11 @@ public class FoodStateAdapter extends RecyclerView.Adapter<FoodStateAdapter.View
     public void onBindViewHolder(@NonNull FoodStateAdapter.ViewHolder holder, int position) {
         ProductState curState = stateList.get(position);
         holder.name.setText(curState.getName());
-//        holder.time.setText("Белки: " + curState.getProteins());
         holder.calories.setText(Math.round(curState.getCalories()) + "ккал");
         holder.grams.setText(Math.round(curState.getGrams()) + "г");
 
         holder.settings.setOnClickListener(v -> {
-
-
-            TextInputEditText e = new TextInputEditText(context);
-            e.setInputType(InputType.TYPE_CLASS_NUMBER);
-            e.setText(Math.round(curState.getGrams()) + "");
-
-            int id = curState.getId();
-
-            new MaterialAlertDialogBuilder(context)
-                    .setTitle(holder.name.getText().toString())
-                    .setMessage("Масса в граммах: ")
-                    .setView(e)
-                    .setNeutralButton("Отмена", null)
-                    .setNegativeButton("Удалить", (dialogInterface, i) -> {
-                        DbManager dbManager = new DbManager(context);
-                        dbManager.openDb();
-                        dbManager.deleteProduct(id);
-
-                        stateList.clear();
-                        dbManager.getFood((ArrayList<ProductState>) stateList);
-                        recyclerView.setAdapter(new FoodStateAdapter(context, stateList, layoutInflater, recyclerView));
-
-                        dbManager.closeDb();
-                    })
-                    .setPositiveButton("Изменить", (dialogInterface, i) -> {
-
-                        float olg_g = curState.getGrams();
-                        float new_g = Float.parseFloat(String.valueOf(e.getText()));
-
-                        String name = holder.name.getText().toString();
-                        float cal = curState.getCalories() / olg_g * new_g;
-                        float pr = curState.getProteins() / olg_g * new_g;
-                        float ft = curState.getFats() / olg_g * new_g;
-                        float ch = curState.getCarbohydrates() / olg_g * new_g;
-
-                        DbManager dbManager = new DbManager(context);
-                        dbManager.openDb();
-                        dbManager.updateProduct(id, name, cal, pr, ft, ch, new_g);
-
-                        stateList.clear();
-                        dbManager.getFood((ArrayList<ProductState>) stateList);
-                        recyclerView.setAdapter(new FoodStateAdapter(context, stateList, layoutInflater, recyclerView));
-
-                        dbManager.closeDb();
-                    })
-                    .show();
-
+            onStateClickListener.onClickSettings(curState, position, holder);
         });
     }
 
