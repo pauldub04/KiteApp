@@ -20,7 +20,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 public class FoodFragment extends Fragment {
@@ -122,6 +124,10 @@ public class FoodFragment extends Fragment {
     public void onResume() {
         super.onResume();
         dbManager.openDb();
+
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        dbManager.checkDay(dateFormat.format(date));
 
         recyclerView = rootView.findViewById(R.id.recycleFood);
         updateFood();

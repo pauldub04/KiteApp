@@ -1,9 +1,11 @@
 package com.example.foodapp.db;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.foodapp.ProductState;
 
@@ -74,6 +76,32 @@ public class DbManager {
             states.add(new ProductState(id, name, cl, 0, 0, 0, g));
         }
         cursor.close();
+
+    }
+
+    public void checkDay(String date) {
+        Log.d("KEK", date);
+        @SuppressLint("Recycle") Cursor cursor = db.query(
+                DbConstants.TABLE_USER_NAME,   // The table to query
+                null,             // The array of columns to return (pass null to get all)
+                "date LIKE ?",              // The columns for the WHERE clause
+                new String[] {date},          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null               // The sort order
+        );
+
+        if (((cursor != null) && (cursor.getCount() > 0))) {
+            Log.d("KEK", "day");
+            cursor.moveToFirst();
+            Log.d("KEK", cursor.getString(cursor.getColumnIndex(DbConstants.COLUMN_CALORIES))+ "sd");
+            cursor.close();
+        } else {
+            Log.d("KEK", "no day");
+            ContentValues values = new ContentValues();
+            values.put(DbConstants.COLUMN_DATE, date);
+            db.insert(DbConstants.TABLE_USER_NAME, null, values);
+        }
 
     }
 
