@@ -1,6 +1,7 @@
 package com.example.foodapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -17,7 +18,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AddFoodActivity extends AppCompatActivity {
 
@@ -56,7 +59,7 @@ public class AddFoodActivity extends AppCompatActivity {
                         float ft = state.getFats() / 100.0f * g;
                         float ch = state.getCarbohydrates() / 100.0f * g;
 
-                        dbManager2.insertProduct(name, cal, pr, ft, ch, g);
+                        dbManager2.insertProduct(name, cal, pr, ft, ch, g, FoodFragment.chosenDateString);
                         dbManager2.closeDb();
 
                         Intent toMain = new Intent(this, MainActivity.class);

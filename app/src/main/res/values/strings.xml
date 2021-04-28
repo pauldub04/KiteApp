@@ -33,6 +33,7 @@
     <string name="time">Время</string>
     <string name="grams">Граммы</string>
     <string name="plus">+</string>
+    <string name="date">Дата</string>
 
 
 </resources>

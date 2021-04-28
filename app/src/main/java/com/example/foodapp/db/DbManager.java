@@ -26,7 +26,7 @@ public class DbManager {
         db = dbHelper.getWritableDatabase();
     }
 
-    public void insertProduct(String name, float calories, float proteins, float fats, float carbohydrates, float grams) {
+    public void insertProduct(String name, float calories, float proteins, float fats, float carbohydrates, float grams, String date) {
         ContentValues values = new ContentValues();
         values.put(DbConstants.COLUMN_NAME, name);
         values.put(DbConstants.COLUMN_CALORIES, calories);
@@ -34,6 +34,7 @@ public class DbManager {
         values.put(DbConstants.COLUMN_FATS, fats);
         values.put(DbConstants.COLUMN_CARBOHYDRATES, carbohydrates);
         values.put(DbConstants.COLUMN_GRAMS, grams);
+        values.put(DbConstants.COLUMN_DATE, date);
 
         db.insert(DbConstants.TABLE_MAIN_NAME, null, values);
     }
@@ -55,12 +56,12 @@ public class DbManager {
         db.delete(DbConstants.TABLE_MAIN_NAME, "_id=?", new String[]{id + ""});
     }
 
-    public void getFood(ArrayList<ProductState> states) {
+    public void getFood(ArrayList<ProductState> states, String date) {
         Cursor cursor = db.query(
                 DbConstants.TABLE_MAIN_NAME,   // The table to query
                 null,             // The array of columns to return (pass null to get all)
-                null,              // The columns for the WHERE clause
-                null,          // The values for the WHERE clause
+                "date=?",              // The columns for the WHERE clause
+                new String[]{date},          // The values for the WHERE clause
                 null,                   // don't group the rows
                 null,                   // don't filter by row groups
                 null               // The sort order
@@ -80,7 +81,7 @@ public class DbManager {
     }
 
     public void checkDay(String date) {
-        Log.d("KEK", date);
+//        Log.d("KEK", date);
         @SuppressLint("Recycle") Cursor cursor = db.query(
                 DbConstants.TABLE_USER_NAME,   // The table to query
                 null,             // The array of columns to return (pass null to get all)
@@ -92,12 +93,12 @@ public class DbManager {
         );
 
         if (((cursor != null) && (cursor.getCount() > 0))) {
-            Log.d("KEK", "day");
+//            Log.d("KEK", "day");
             cursor.moveToFirst();
-            Log.d("KEK", cursor.getString(cursor.getColumnIndex(DbConstants.COLUMN_CALORIES))+ "sd");
+//            Log.d("KEK", cursor.getString(cursor.getColumnIndex(DbConstants.COLUMN_CALORIES))+ "sd");
             cursor.close();
         } else {
-            Log.d("KEK", "no day");
+//            Log.d("KEK", "no day");
             ContentValues values = new ContentValues();
             values.put(DbConstants.COLUMN_DATE, date);
             db.insert(DbConstants.TABLE_USER_NAME, null, values);

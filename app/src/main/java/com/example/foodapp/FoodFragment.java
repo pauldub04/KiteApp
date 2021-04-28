@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.foodapp.db.DbManager;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -22,8 +24,10 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
+
 
 public class FoodFragment extends Fragment {
 
@@ -37,6 +41,14 @@ public class FoodFragment extends Fragment {
     RecyclerView recyclerView;
 
     FoodStateAdapter.OnStateClickListener onStateClickListener;
+
+    @SuppressLint("SimpleDateFormat")
+    SimpleDateFormat dayFormat = new SimpleDateFormat("dd MMMM yyyy");
+    @SuppressLint("SimpleDateFormat")
+    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+    Date realDate = null, chosenDate = null;
+    public static String realDateString, chosenDateString;
+    Calendar calendar;
 
     private void checkAuth() {
         isAuth = prefs.getBoolean("isAuth", false);
@@ -75,12 +87,9 @@ public class FoodFragment extends Fragment {
                     .setNeutralButton("Отмена", null)
                     .setNegativeButton("Удалить", (dialogInterface, i) -> {
                         dbManager.deleteProduct(id);
-                        states.clear();
-                        dbManager.getFood(states);
-                        updateAdapter();
+                        updateFood();
                     })
                     .setPositiveButton("Изменить", (dialogInterface, i) -> {
-
                         float olg_g = state.getGrams();
                         float new_g = Float.parseFloat(String.valueOf(e.getText()));
 
@@ -91,10 +100,7 @@ public class FoodFragment extends Fragment {
                         float ch = state.getCarbohydrates() / olg_g * new_g;
 
                         dbManager.updateProduct(id, name, cal, pr, ft, ch, new_g);
-
-                        states.clear();
-                        dbManager.getFood(states);
-                        updateAdapter();
+                        updateFood();
                     })
                     .show();
         };
@@ -104,7 +110,16 @@ public class FoodFragment extends Fragment {
         btnAdd.setOnClickListener(v -> {
             Intent toAdd = new Intent(getActivity(), AddFoodActivity.class);
             startActivity(toAdd);
+        });
 
+        Button btnMoveLeft = rootView.findViewById(R.id.buttonMoveDayLeft);
+        btnMoveLeft.setOnClickListener(v -> {
+            moveDay(-1);
+        });
+
+        Button btnMoveRight = rootView.findViewById(R.id.buttonMoveDayRight);
+        btnMoveRight.setOnClickListener(v -> {
+            moveDay(1);
         });
 
         return rootView;
@@ -112,7 +127,7 @@ public class FoodFragment extends Fragment {
 
     public void updateFood() {
         states.clear();
-        dbManager.getFood(states);
+        dbManager.getFood(states, chosenDateString);
         updateAdapter();
     }
 
@@ -120,17 +135,40 @@ public class FoodFragment extends Fragment {
         recyclerView.setAdapter(new FoodStateAdapter(getContext(), states, getLayoutInflater(), recyclerView, onStateClickListener));
     }
 
+    public void updateDate() {
+        realDateString = dayFormat.format(realDate);
+        chosenDateString = dayFormat.format(chosenDate);
+
+        TextView t = rootView.findViewById(R.id.textChosenDay);
+        t.setText(chosenDateString.substring(0, chosenDateString.length()-5));
+
+        updateFood();
+    }
+
+    public void moveDay(int delta) {
+        calendar.setTime(chosenDate);
+        calendar.add(Calendar.DATE, delta);
+        chosenDate = calendar.getTime();
+        updateDate();
+    }
+
+    @SuppressLint("SimpleDateFormat")
     @Override
     public void onResume() {
         super.onResume();
         dbManager.openDb();
 
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        dbManager.checkDay(dateFormat.format(date));
-
         recyclerView = rootView.findViewById(R.id.recycleFood);
-        updateFood();
+
+        calendar = Calendar.getInstance();
+        if (realDate == null)
+            realDate = new Date();
+        if (chosenDate == null)
+            chosenDate = new Date();
+
+        updateDate();
+        dbManager.checkDay(chosenDateString);
+//        updateFood();
     }
 
     @Override
