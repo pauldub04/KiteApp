@@ -40,10 +40,13 @@ public class SettingsFragment extends Fragment {
         TextView cal = rootView.findViewById(R.id.textViewCal);
 
         name.setText(prefs.getString("name", ""));
-        weight.setText("Вес: " + String.valueOf(prefs.getInt("weight", 0)));
-        height.setText("Рост: " + String.valueOf(prefs.getInt("height", 0)));
+        weight.setText(String.valueOf(prefs.getInt("weight", 0)) + " кг");
+        height.setText(String.valueOf(prefs.getInt("height", 0)) + " см");
         age.setText("Возраст: " + String.valueOf(prefs.getInt("age", 0)));
-        sex.setText("Пол: " + prefs.getString("sex", ""));
+        String sexText = "мужской";
+        if (prefs.getString("sex", "").equals("female"))
+            sexText = "женский";
+        sex.setText("Пол " + sexText);
         cal.setText("Калории: " + String.valueOf(prefs.getInt("cal", 0)));
     }
 
