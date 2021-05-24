@@ -56,8 +56,11 @@
             android:textSize="16sp"
             android:textColor="@color/black"
             android:layout_marginTop="30dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp" />
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+        />
 
         <ProgressBar
             android:id="@+id/progressBarC"
@@ -66,8 +69,8 @@
             android:layout_height="wrap_content"
 
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
         />
 
 
@@ -88,16 +91,15 @@
                     android:text="@string/proteins"
                     android:textSize="16sp"
                     android:textColor="@color/black"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp" />
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp" />
 
                 <ProgressBar
                     android:id="@+id/progressBarP"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="20dp"
                     />
             </LinearLayout>
             <LinearLayout
@@ -133,19 +135,16 @@
                     android:id="@+id/textViewCh"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/carbohydrates"
+                    android:text="Углев."
                     android:textSize="16sp"
-                    android:textColor="@color/black"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp" />
+                    android:textColor="@color/black"/>
 
                 <ProgressBar
                     android:id="@+id/progressBarCh"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="20dp"
                     />
             </LinearLayout>
         </LinearLayout>
@@ -156,6 +155,7 @@
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="30dp"
             >
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>

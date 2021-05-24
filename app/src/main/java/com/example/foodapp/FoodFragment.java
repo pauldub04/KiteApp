@@ -144,7 +144,7 @@ public class FoodFragment extends Fragment {
 
     public void updateProgress() {
         dbManager.updateProgress(c, rootView.findViewById(R.id.textViewC),
-                DbConstants.COLUMN_CALORIES, "Калории", "/"+prefs.getInt("cal", 0),
+                DbConstants.COLUMN_CALORIES, "Калории", " / "+prefs.getInt("cal", 0),
                 FoodFragment.chosenDateString);
 
         dbManager.updateProgress(p, rootView.findViewById(R.id.textViewP),
@@ -156,7 +156,7 @@ public class FoodFragment extends Fragment {
                 FoodFragment.chosenDateString);
 
         dbManager.updateProgress(ch, rootView.findViewById(R.id.textViewCh),
-                DbConstants.COLUMN_CARBOHYDRATES, "Углеводы", "",
+                DbConstants.COLUMN_CARBOHYDRATES, "Углев.", "",
                 FoodFragment.chosenDateString);
     }
 
