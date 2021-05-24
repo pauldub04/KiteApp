@@ -95,6 +95,9 @@ public class Authorization extends AppCompatActivity {
             } else {
                 calories = (float) ((float) (10 * weightValue + 6.25 * heightValue - 5 * ageValue - 161) * sportMult);
             }
+            float p = calories*0.3f;
+            float f = calories*0.3f;
+            float ch = calories*0.4f;
 
             SharedPreferences.Editor editor = getSharedPreferences("UserInfo", MODE_PRIVATE).edit();
             editor.putString("name", nameValue);
@@ -104,6 +107,9 @@ public class Authorization extends AppCompatActivity {
             editor.putString("sex", sexValue);
             editor.putFloat("sport", (float) sportMult);
             editor.putInt("cal", ((int) calories));
+            editor.putInt("proteins", ((int) p));
+            editor.putInt("fats", ((int) f));
+            editor.putInt("carbohydrates", ((int) ch));
             editor.putBoolean("isAuth", true);
 
             editor.apply();

@@ -15,8 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.foodapp.db.DbConstants;
 import com.example.foodapp.db.DbManager;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,6 +43,7 @@ public class FoodFragment extends Fragment {
     RecyclerView recyclerView;
 
     FoodStateAdapter.OnStateClickListener onStateClickListener;
+    ProgressBar c, p, f, ch;
 
     @SuppressLint("SimpleDateFormat")
     SimpleDateFormat dayFormat = new SimpleDateFormat("dd MMMM yyyy");
@@ -86,7 +89,8 @@ public class FoodFragment extends Fragment {
                     .setView(e)
                     .setNeutralButton("Отмена", null)
                     .setNegativeButton("Удалить", (dialogInterface, i) -> {
-                        dbManager.deleteProduct(id);
+                        dbManager.deleteProduct(id, state.getCalories(), state.getProteins(),
+                                state.getFats(), state.getCarbohydrates(), FoodFragment.chosenDateString);
                         updateFood();
                     })
                     .setPositiveButton("Изменить", (dialogInterface, i) -> {
@@ -99,7 +103,10 @@ public class FoodFragment extends Fragment {
                         float ft = state.getFats() / olg_g * new_g;
                         float ch = state.getCarbohydrates() / olg_g * new_g;
 
-                        dbManager.updateProduct(id, name, cal, pr, ft, ch, new_g);
+                        dbManager.updateProduct(id, name,
+                                state.getCalories(), state.getProteins(),
+                                state.getFats(), state.getCarbohydrates(),
+                                cal, pr, ft, ch, new_g, FoodFragment.chosenDateString);
                         updateFood();
                     })
                     .show();
@@ -122,13 +129,43 @@ public class FoodFragment extends Fragment {
             moveDay(1);
         });
 
+        c = rootView.findViewById(R.id.progressBarC);
+        p = rootView.findViewById(R.id.progressBarP);
+        f = rootView.findViewById(R.id.progressBarF);
+        ch = rootView.findViewById(R.id.progressBarCh);
+
+        c.setMax(prefs.getInt("cal", 0));
+        p.setMax(prefs.getInt("proteins", 0));
+        f.setMax(prefs.getInt("fats", 0));
+        ch.setMax(prefs.getInt("carbohydrates", 0));
+
         return rootView;
+    }
+
+    public void updateProgress() {
+        dbManager.updateProgress(c, rootView.findViewById(R.id.textViewC),
+                DbConstants.COLUMN_CALORIES, "Калории", "/"+prefs.getInt("cal", 0),
+                FoodFragment.chosenDateString);
+
+        dbManager.updateProgress(p, rootView.findViewById(R.id.textViewP),
+                DbConstants.COLUMN_PROTEINS, "Белки", "",
+                FoodFragment.chosenDateString);
+
+        dbManager.updateProgress(f, rootView.findViewById(R.id.textViewF),
+                DbConstants.COLUMN_FATS, "Жиры", "",
+                FoodFragment.chosenDateString);
+
+        dbManager.updateProgress(ch, rootView.findViewById(R.id.textViewCh),
+                DbConstants.COLUMN_CARBOHYDRATES, "Углеводы", "",
+                FoodFragment.chosenDateString);
     }
 
     public void updateFood() {
         states.clear();
         dbManager.getFood(states, chosenDateString);
         updateAdapter();
+
+        updateProgress();
     }
 
     public void updateAdapter() {
@@ -168,6 +205,10 @@ public class FoodFragment extends Fragment {
 
         updateDate();
         dbManager.checkDay(chosenDateString);
+
+//        Button btnMoveRight = rootView.findViewById(R.id.buttonMoveDayRight);
+//        btnMoveRight.setEnabled(chosenDate != realDate);
+
 //        updateFood();
     }
 

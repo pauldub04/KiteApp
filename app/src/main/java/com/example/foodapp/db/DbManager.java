@@ -6,6 +6,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.foodapp.ProductState;
 
@@ -26,7 +28,30 @@ public class DbManager {
         db = dbHelper.getWritableDatabase();
     }
 
+    @SuppressLint("SetTextI18n")
+    public void updateProgress(ProgressBar p, TextView t, String field, String text, String max, String date) {
+        checkDay(date);
+
+        @SuppressLint("Recycle") Cursor cursor = db.query(
+                DbConstants.TABLE_USER_NAME,   // The table to query
+                null,             // The array of columns to return (pass null to get all)
+                "date LIKE ?",              // The columns for the WHERE clause
+                new String[] {date},          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null               // The sort order
+        );
+        cursor.moveToFirst();
+        float val = cursor.getFloat(cursor.getColumnIndex(field));
+//        float val = 0;
+        cursor.close();
+
+        p.setProgress((int) val);
+        t.setText(text + "   " + ((int) val) + max);
+    }
+
     public void insertProduct(String name, float calories, float proteins, float fats, float carbohydrates, float grams, String date) {
+        checkDay(date);
         ContentValues values = new ContentValues();
         values.put(DbConstants.COLUMN_NAME, name);
         values.put(DbConstants.COLUMN_CALORIES, calories);
@@ -36,10 +61,41 @@ public class DbManager {
         values.put(DbConstants.COLUMN_GRAMS, grams);
         values.put(DbConstants.COLUMN_DATE, date);
 
+        Log.d("KEK", date);
+        @SuppressLint("Recycle") Cursor cursor = db.query(
+                DbConstants.TABLE_USER_NAME,   // The table to query
+                null,             // The array of columns to return (pass null to get all)
+                "date LIKE ?",              // The columns for the WHERE clause
+                new String[] {date},          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null               // The sort order
+        );
+        cursor.moveToFirst();
+        float c = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_CALORIES));
+        float p = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_PROTEINS));
+        float f = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_FATS));
+        float ch = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_CARBOHYDRATES));
+        cursor.close();
+
+        c += calories;
+        p += proteins;
+        f += fats;
+        ch += carbohydrates;
+
+        ContentValues values2 = new ContentValues();
+        values2.put(DbConstants.COLUMN_CALORIES, c);
+        values2.put(DbConstants.COLUMN_PROTEINS, p);
+        values2.put(DbConstants.COLUMN_FATS, f);
+        values2.put(DbConstants.COLUMN_CARBOHYDRATES, ch);
+        db.update(DbConstants.TABLE_USER_NAME, values2, "date LIKE ?", new String[] {date});
+
         db.insert(DbConstants.TABLE_MAIN_NAME, null, values);
     }
 
-    public void updateProduct(int id, String name, float calories, float proteins, float fats, float carbohydrates, float grams) {
+    public void updateProduct(int id, String name, float old_calories, float old_proteins, float old_fats, float old_carbohydrates,
+                              float calories, float proteins, float fats, float carbohydrates, float grams, String date) {
+        checkDay(date);
         ContentValues values = new ContentValues();
         values.put(DbConstants.COLUMN_NAME, name);
         values.put(DbConstants.COLUMN_CALORIES, calories);
@@ -48,11 +104,67 @@ public class DbManager {
         values.put(DbConstants.COLUMN_CARBOHYDRATES, carbohydrates);
         values.put(DbConstants.COLUMN_GRAMS, grams);
 
-//        db.insert(DbConstants.TABLE_MAIN_NAME, null, values);
+        @SuppressLint("Recycle") Cursor cursor = db.query(
+                DbConstants.TABLE_USER_NAME,   // The table to query
+                null,             // The array of columns to return (pass null to get all)
+                "date LIKE ?",              // The columns for the WHERE clause
+                new String[] {date},          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null               // The sort order
+        );
+        cursor.moveToFirst();
+        float c = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_CALORIES));
+        float p = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_PROTEINS));
+        float f = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_FATS));
+        float ch = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_CARBOHYDRATES));
+        cursor.close();
+
+        c = c - old_calories + calories;
+        p = p - old_proteins + proteins;
+        f = f - old_fats + fats;
+        ch = ch - old_carbohydrates + carbohydrates;
+
+        ContentValues values2 = new ContentValues();
+        values2.put(DbConstants.COLUMN_CALORIES, c);
+        values2.put(DbConstants.COLUMN_PROTEINS, p);
+        values2.put(DbConstants.COLUMN_FATS, f);
+        values2.put(DbConstants.COLUMN_CARBOHYDRATES, ch);
+        db.update(DbConstants.TABLE_USER_NAME, values2, "date LIKE ?", new String[] {date});
+
         db.update(DbConstants.TABLE_MAIN_NAME, values, "_id=?", new String[]{id + ""});
     }
 
-    public void deleteProduct(int id) {
+    public void deleteProduct(int id, float old_calories, float old_proteins, float old_fats, float old_carbohydrates, String date) {
+        checkDay(date);
+        @SuppressLint("Recycle") Cursor cursor = db.query(
+                DbConstants.TABLE_USER_NAME,   // The table to query
+                null,             // The array of columns to return (pass null to get all)
+                "date LIKE ?",              // The columns for the WHERE clause
+                new String[] {date},          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null               // The sort order
+        );
+        cursor.moveToFirst();
+        float c = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_CALORIES));
+        float p = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_PROTEINS));
+        float f = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_FATS));
+        float ch = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_CARBOHYDRATES));
+        cursor.close();
+
+        c = c - old_calories;
+        p = p - old_proteins;
+        f = f - old_fats;
+        ch = ch - old_carbohydrates;
+
+        ContentValues values2 = new ContentValues();
+        values2.put(DbConstants.COLUMN_CALORIES, c);
+        values2.put(DbConstants.COLUMN_PROTEINS, p);
+        values2.put(DbConstants.COLUMN_FATS, f);
+        values2.put(DbConstants.COLUMN_CARBOHYDRATES, ch);
+        db.update(DbConstants.TABLE_USER_NAME, values2, "date LIKE ?", new String[] {date});
+
         db.delete(DbConstants.TABLE_MAIN_NAME, "_id=?", new String[]{id + ""});
     }
 
@@ -112,7 +224,9 @@ public class DbManager {
 
     public void clearDatabase() {
         String clearDBQuery = "DELETE FROM " + DbConstants.TABLE_MAIN_NAME;
+        String clearDBQuery2 = "DELETE FROM " + DbConstants.TABLE_USER_NAME;
         db.execSQL(clearDBQuery);
+        db.execSQL(clearDBQuery2);
     }
 
 }
