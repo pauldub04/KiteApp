@@ -14,6 +14,8 @@ import com.example.foodapp.ProductState;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Math.max;
+
 public class DbManager {
     private Context context;
     private DbHelper dbHelper;
@@ -190,6 +192,50 @@ public class DbManager {
         }
         cursor.close();
 
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void getDrink(TextView t, String date) {
+        checkDay(date);
+        @SuppressLint("Recycle") Cursor cursor = db.query(
+                DbConstants.TABLE_USER_NAME,   // The table to query
+                null,             // The array of columns to return (pass null to get all)
+                "date LIKE ?",              // The columns for the WHERE clause
+                new String[] {date},          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null               // The sort order
+        );
+        cursor.moveToFirst();
+        int d = cursor.getInt(cursor.getColumnIndex(DbConstants.COLUMN_DRINKS));
+        cursor.close();
+
+        t.setText(d+"");
+
+        Log.d("KEK", d+"");
+    }
+
+    public void changeDrink(int delta, String date) {
+        checkDay(date);
+        @SuppressLint("Recycle") Cursor cursor = db.query(
+                DbConstants.TABLE_USER_NAME,   // The table to query
+                null,             // The array of columns to return (pass null to get all)
+                "date LIKE ?",              // The columns for the WHERE clause
+                new String[] {date},          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null               // The sort order
+        );
+        cursor.moveToFirst();
+        int d = cursor.getInt(cursor.getColumnIndex(DbConstants.COLUMN_DRINKS));
+        cursor.close();
+
+        d += delta;
+        d = max(d, 0);
+
+        ContentValues values = new ContentValues();
+        values.put(DbConstants.COLUMN_DRINKS, d);
+        db.update(DbConstants.TABLE_USER_NAME, values, "date LIKE ?", new String[] {date});
     }
 
     public void checkDay(String date) {

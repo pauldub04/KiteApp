@@ -10,7 +10,7 @@ public class DbConstants {
     public static final String TABLE_USER_NAME = "stats";
 
     public static final int DB_STATIC_VERSION = 1;
-    public static final int DB_MAIN_VERSION = 5;
+    public static final int DB_MAIN_VERSION = 6;
 
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_CALORIES = "calories";
@@ -19,6 +19,7 @@ public class DbConstants {
     public static final String COLUMN_CARBOHYDRATES = "carbohydrates";
     public static final String COLUMN_DATE = "date";
     public static final String COLUMN_GRAMS = "grams";
+    public static final String COLUMN_DRINKS = "drinks";
     public static final String _ID = "_id";
 
     public static final String SQL_CREATE_ENTRIES_MAIN =
@@ -39,7 +40,8 @@ public class DbConstants {
                     COLUMN_CALORIES + " REAL," +
                     COLUMN_PROTEINS + " REAL," +
                     COLUMN_FATS + " REAL," +
-                    COLUMN_CARBOHYDRATES + " REAL)";
+                    COLUMN_CARBOHYDRATES + " REAL," +
+                    COLUMN_DRINKS + " INTEGER)";
 
 
     public static final String SQL_DELETE_ENTRIES_MAIN =
