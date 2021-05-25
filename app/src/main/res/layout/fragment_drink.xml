@@ -53,16 +53,32 @@
         android:layout_marginTop="20dp"
         android:text="Стаканов выпито: " />
 
-    <TextView
-        android:id="@+id/textViewDrink"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:text="0" />
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_local_drink_black_24dp"
+            tools:ignore="VectorDrawableCompat"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+        />
+
+        <TextView
+            android:id="@+id/textViewDrink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:text="0" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -71,20 +87,18 @@
         android:orientation="horizontal">
         <Button
             android:id="@+id/buttonMinus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             app:icon="@drawable/ic_remove_black_24dp"
             android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp" />
         <Button
             android:id="@+id/buttonPlus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             style="@style/Widget.MaterialComponents.Button.TextButton"
-            app:icon="@drawable/ic_add_black_24dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp" />
+            app:icon="@drawable/ic_add_black_24dp"/>
     </LinearLayout>
 
 
