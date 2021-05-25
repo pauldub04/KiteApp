@@ -47,7 +47,7 @@ public class SettingsFragment extends Fragment {
         if (prefs.getString("sex", "").equals("female"))
             sexText = "женский";
         sex.setText("Пол " + sexText);
-        cal.setText("Калории: " + String.valueOf(prefs.getInt("cal", 0)));
+        cal.setText("Норма калорий: " + String.valueOf(prefs.getInt("cal", 0)));
     }
 
     @Override

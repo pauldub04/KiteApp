@@ -67,14 +67,14 @@ public class FoodStateAdapter extends RecyclerView.Adapter<FoodStateAdapter.View
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        final TextView name, calories, time, grams;
+        final TextView name, calories, grams;
         final Button settings;
 
         ViewHolder(View view) {
             super(view);
             this.name = view.findViewById(R.id.textFoodName);
             this.calories = view.findViewById(R.id.textFoodCalories);
-            this.time = view.findViewById(R.id.textFoodTime);
+//            this.time = view.findViewById(R.id.textFoodTime);
             this.grams = view.findViewById(R.id.textFoodGrams);
 
             this.settings = view.findViewById(R.id.buttonSettings);

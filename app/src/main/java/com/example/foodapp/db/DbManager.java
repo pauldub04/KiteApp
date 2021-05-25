@@ -52,6 +52,35 @@ public class DbManager {
         t.setText(text + "   " + ((int) val) + max);
     }
 
+    @SuppressLint("SetTextI18n")
+    public ArrayList<Float> updateProgress(String date) {
+        checkDay(date);
+
+        @SuppressLint("Recycle") Cursor cursor = db.query(
+                DbConstants.TABLE_USER_NAME,   // The table to query
+                null,             // The array of columns to return (pass null to get all)
+                "date LIKE ?",              // The columns for the WHERE clause
+                new String[] {date},          // The values for the WHERE clause
+                null,                   // don't group the rows
+                null,                   // don't filter by row groups
+                null               // The sort order
+        );
+        cursor.moveToFirst();
+        float c = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_CALORIES));
+        float p = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_PROTEINS));
+        float f = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_FATS));
+        float ch = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_CARBOHYDRATES));
+        cursor.close();
+
+        ArrayList<Float> x = new ArrayList<>();
+        x.add(c);
+        x.add(p);
+        x.add(f);
+        x.add(ch);
+
+        return x;
+    }
+
     public void insertProduct(String name, float calories, float proteins, float fats, float carbohydrates, float grams, String date) {
         checkDay(date);
         ContentValues values = new ContentValues();
@@ -155,6 +184,8 @@ public class DbManager {
         float ch = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_CARBOHYDRATES));
         cursor.close();
 
+        Log.d("KEK", old_calories+" "+old_proteins+" "+old_fats+" "+old_carbohydrates);
+
         c = c - old_calories;
         p = p - old_proteins;
         f = f - old_fats;
@@ -185,10 +216,13 @@ public class DbManager {
             String name = cursor.getString(cursor.getColumnIndex(DbConstants.COLUMN_NAME));
 //            name = name.substring(0, Math.min(name.length(), 30));
             float cl = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_CALORIES));
+            float p = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_PROTEINS));
+            float f = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_FATS));
+            float ch = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_CARBOHYDRATES));
             float g = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_GRAMS));
             int id = cursor.getInt(cursor.getColumnIndex(DbConstants._ID));
 
-            states.add(new ProductState(id, name, cl, 0, 0, 0, g));
+            states.add(new ProductState(id, name, cl, p, f, ch, g));
         }
         cursor.close();
 
