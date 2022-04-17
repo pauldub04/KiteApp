@@ -26,7 +26,7 @@
                 android:layout_weight="2"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:textSize="20sp"
+                android:textSize="17sp"
                 android:textColor="@color/black"
                 android:text="@string/product" />
 
@@ -50,6 +50,8 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:textSize="12sp"
+                android:textColor="@color/ltgrey"
                 android:text="@string/proteins" />
 
             <TextView
@@ -58,6 +60,8 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:textSize="12sp"
+                android:textColor="@color/ltgrey"
                 android:text="@string/fats" />
 
             <TextView
@@ -66,6 +70,8 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                android:textSize="12sp"
+                android:textColor="@color/ltgrey"
                 android:text="@string/carbohydrates" />
         </LinearLayout>
     </LinearLayout>

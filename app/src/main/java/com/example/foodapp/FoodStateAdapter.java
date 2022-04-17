@@ -52,7 +52,7 @@ public class FoodStateAdapter extends RecyclerView.Adapter<FoodStateAdapter.View
     public void onBindViewHolder(@NonNull FoodStateAdapter.ViewHolder holder, int position) {
         ProductState curState = stateList.get(position);
         holder.name.setText(curState.getName());
-        holder.calories.setText(Math.round(curState.getCalories()) + "ккал");
+        holder.calories.setText(Math.round(curState.getCalories()) + " ккал");
         holder.grams.setText(Math.round(curState.getGrams()) + "г");
 
         holder.settings.setOnClickListener(v -> {

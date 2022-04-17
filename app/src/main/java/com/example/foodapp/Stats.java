@@ -1,6 +1,7 @@
 package com.example.foodapp;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -9,12 +10,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.foodapp.db.DbConstants;
 import com.example.foodapp.db.DbManager;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
 
 public class Stats extends AppCompatActivity {
 
@@ -48,6 +54,41 @@ public class Stats extends AppCompatActivity {
 
         stats(week, 7);
         stats(month, 30);
+
+        BarChart barChart = findViewById(R.id.barchart);
+
+        BarDataSet barDataSet = new BarDataSet(fillChart(), "Калории");
+        BarData barData = new BarData(barDataSet);
+        barChart.setData(barData);
+
+        Description desc = new Description();
+        desc.setText("");
+        barChart.setDescription(desc);
+
+        barDataSet.setColor(Color.LTGRAY);
+        barDataSet.setValueTextColor(Color.BLACK);
+        barDataSet.setValueTextSize(16f);
+
+        barChart.getDescription().setEnabled(true);
+    }
+
+    private ArrayList fillChart() {
+        ArrayList barArraylist = new ArrayList();
+
+        for (int i = 0; i < 7; i++) {
+            ArrayList<Float> x = dbManager.updateProgress(realDateString);
+
+            float c = x.get(0);
+            barArraylist.add(new BarEntry((int)(7-i), (int)c));
+
+            realDate = moveDay(realDate, -1);
+            realDateString = dayFormat.format(realDate);
+        }
+
+        realDate = new Date();
+        realDateString = dayFormat.format(realDate);
+
+        return barArraylist;
     }
 
     public void stats(TextView t, int days) {

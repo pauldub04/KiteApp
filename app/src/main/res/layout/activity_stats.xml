@@ -25,6 +25,16 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <com.github.mikephil.charting.charts.BarChart
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:id="@+id/barchart"
+                >
+            </com.github.mikephil.charting.charts.BarChart>
+
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
