@@ -64,6 +64,7 @@ public class Stats extends AppCompatActivity {
         Description desc = new Description();
         desc.setText("");
         barChart.setDescription(desc);
+        barChart.setFocusable(false);
 
         barDataSet.setColor(Color.LTGRAY);
         barDataSet.setValueTextColor(Color.BLACK);
