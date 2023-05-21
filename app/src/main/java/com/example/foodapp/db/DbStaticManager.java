@@ -84,7 +84,7 @@ public class DbStaticManager {
             float ch = cursor.getFloat(cursor.getColumnIndex(DbConstants.COLUMN_CARBOHYDRATES));
             int id = cursor.getInt(cursor.getColumnIndex(DbConstants._ID));
 
-            return new ProductState(id, name, cl, pr, ft, ch, 0);
+            return new ProductState(id, name, cl, pr, ft, ch, 100);
         }
         cursor.close();
         return null;

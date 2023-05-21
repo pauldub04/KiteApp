@@ -1,78 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    tools:context="com.example.foodapp.FoodDetection">
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/tvDescription">
-
-        <TextView
-            android:id="@+id/tvPlaceholder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/tv_placeholder"
-            android:textAlignment="center"
-            android:textSize="40sp" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:contentDescription="@null"
-            android:scaleType="fitCenter" />
-    </FrameLayout>
-
-    <TextView
-        android:id="@+id/tvDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/scrollView"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="@string/tv_description" />
-
+    >
     <ScrollView
-        android:id="@+id/scrollView"
+        android:id="@+id/scrollViewDetect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/captureImageFab"
         >
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/detectedProducts"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
-            </androidx.recyclerview.widget.RecyclerView>
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvPlaceholder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/tv_placeholder"
+                    android:textAlignment="center"
+                    android:layout_marginVertical="100dp"
+                    android:textSize="30sp" />
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:maxHeight="400dp"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@null"
+                    android:scaleType="fitCenter" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/tv_description"
+                android:visibility="invisible"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="100dp"
+                >
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/detectedProducts"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:minHeight="200dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/captureImageFab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center|bottom"
-        android:layout_margin="16dp"
-        android:text="@string/tv_take_photo"
-        android:textAllCaps="false" />
-    <!--        android:drawableLeft="@drawable/ic_camera"-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        >
 
-</RelativeLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/captureImageFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_margin="16dp"
+            android:contentDescription="@string/adding_food"
+            app:srcCompat="@drawable/baseline_camera_alt_24"
+            tools:ignore="RtlHardcoded,VectorDrawableCompat"
+            />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/buttonAddDetected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_margin="16dp"
+            android:contentDescription="@string/adding_food"
+            app:srcCompat="@drawable/baseline_check_24"
+            tools:ignore="RtlHardcoded,VectorDrawableCompat"
+            android:visibility="gone"
+            />
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

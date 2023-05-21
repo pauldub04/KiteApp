@@ -36,7 +36,7 @@
     <string name="date">Дата</string>
 
 
-    <string name="tv_take_photo">Take photo</string>
-    <string name="tv_description">Select a preset image or take a new photo</string>
-    <string name="tv_placeholder">Object detection demo</string>
+    <string name="tv_take_photo">Камера</string>
+    <string name="tv_description">Введите массу каждого продукта в граммах: </string>
+    <string name="tv_placeholder">Сделайте фотографию</string>
 </resources>

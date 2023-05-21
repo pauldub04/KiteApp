@@ -2,6 +2,9 @@ package com.example.foodapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,10 +42,6 @@ public class DetectedProductStateAdapter extends RecyclerView.Adapter<DetectedPr
         ProductState curState = stateList.get(position);
         holder.name.setText(curState.getName());
         holder.grams.setText("100");
-
-//        holder.add.setOnClickListener(v -> {
-//            onStateClickListener.onClickAdd(curState, position, holder);
-//        });
     }
 
     @Override

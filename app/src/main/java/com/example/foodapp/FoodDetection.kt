@@ -10,15 +10,17 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import com.example.foodapp.db.DbManager
 import com.example.foodapp.db.DbStaticManager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.tensorflow.lite.support.image.TensorImage
@@ -28,9 +30,9 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.HashSet
 import kotlin.math.max
 import kotlin.math.min
+
 
 class FoodDetection : AppCompatActivity(), View.OnClickListener {
     companion object {
@@ -39,10 +41,14 @@ class FoodDetection : AppCompatActivity(), View.OnClickListener {
         private const val MAX_FONT_SIZE = 96F
     }
 
-    private lateinit var captureImageFab: Button
+    private lateinit var captureImageFab: FloatingActionButton
+    private lateinit var addProducts: FloatingActionButton
     private lateinit var inputImageView: ImageView
     private lateinit var tvPlaceholder: TextView
+    private lateinit var tvDescription: TextView
     private lateinit var currentPhotoPath: String
+    private lateinit var scrollView: ScrollView
+
 
     private var dbManager: DbStaticManager? = null
     var states = ArrayList<ProductState>()
@@ -53,10 +59,37 @@ class FoodDetection : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_detection)
 
         captureImageFab = findViewById(R.id.captureImageFab)
+        addProducts = findViewById(R.id.buttonAddDetected)
         inputImageView = findViewById(R.id.imageView)
         tvPlaceholder = findViewById(R.id.tvPlaceholder)
+        tvDescription = findViewById(R.id.tvDescription)
+        scrollView = findViewById(R.id.scrollViewDetect)
 
         captureImageFab.setOnClickListener(this)
+
+        addProducts.setOnClickListener {
+            val dbManager2 = DbManager(this)
+            dbManager2.openDb()
+
+            run {
+                val count = recyclerView!!.adapter!!.itemCount
+                var i : Int = 0
+                while (i < count) {
+                    val holder : DetectedProductStateAdapter.ViewHolder = recyclerView!!.findViewHolderForLayoutPosition(i) as DetectedProductStateAdapter.ViewHolder
+                    states[i].grams = holder.grams.text.toString().toFloat()
+
+                    dbManager2.insertProduct(states[i].name, states[i].calories, states[i].proteins,
+                        states[i].fats, states[i].carbohydrates, states[i].grams, FoodFragment.chosenDateString)
+
+                    ++i
+                }
+            }
+            dbManager2.closeDb()
+            states.clear()
+
+            val toMain = Intent(this, MainActivity::class.java)
+            startActivity(toMain)
+        }
 
         dbManager = DbStaticManager(this)
         try {
@@ -190,12 +223,14 @@ class FoodDetection : AppCompatActivity(), View.OnClickListener {
         }
         // Draw the detection result on the bitmap and show it.
         val imgWithResult = drawDetectionResult(bitmap, resultToDisplay)
-//        this.runOnUiThread(java.lang.Runnable {
-//            inputImageView.setImageBitmap(imgWithResult)
-//        })
         runOnUiThread {
             inputImageView.setImageBitmap(imgWithResult)
             updateDetected(productIdsSet)
+            addProducts.isEnabled = true;
+            addProducts.visibility = View.VISIBLE
+            tvDescription.visibility = View.VISIBLE
+
+            scrollView.scrollTo(0, scrollView.bottom)
         }
     }
 
@@ -349,7 +384,7 @@ class FoodDetection : AppCompatActivity(), View.OnClickListener {
 
         detectionResults.forEach {
             // draw bounding box
-            pen.color = Color.RED
+            pen.color = Color.GREEN
             pen.strokeWidth = 8F
             pen.style = Paint.Style.STROKE
             val box = it.boundingBox

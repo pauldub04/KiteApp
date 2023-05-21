@@ -7,7 +7,7 @@ public class ProductState {
     private final float proteins;
     private final float fats;
     private final float carbohydrates;
-    private final float grams;
+    private float grams;
 
     public ProductState(int id, String name, float calories, float proteins, float fats, float carbohydrates, float grams) {
         this.id = id;
@@ -31,6 +31,9 @@ public class ProductState {
         return carbohydrates;
     }
     public float getGrams() { return grams; }
+    public void setGrams(float g) {
+        grams = g;
+    }
     public int getId() { return id; }
 
 }

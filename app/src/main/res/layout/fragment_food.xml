@@ -185,7 +185,7 @@
             android:layout_gravity="bottom|center"
             android:layout_margin="16dp"
             android:contentDescription="@string/adding_food"
-            app:srcCompat="@drawable/ic_launcher_foreground"
+            app:srcCompat="@drawable/baseline_camera_alt_24"
             tools:ignore="RtlHardcoded,VectorDrawableCompat"
             />
     </LinearLayout>
