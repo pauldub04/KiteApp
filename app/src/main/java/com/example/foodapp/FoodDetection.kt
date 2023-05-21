@@ -17,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
+import com.example.foodapp.db.DbStaticManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.tensorflow.lite.support.image.TensorImage
@@ -26,6 +28,7 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashSet
 import kotlin.math.max
 import kotlin.math.min
 
@@ -41,6 +44,10 @@ class FoodDetection : AppCompatActivity(), View.OnClickListener {
     private lateinit var tvPlaceholder: TextView
     private lateinit var currentPhotoPath: String
 
+    private var dbManager: DbStaticManager? = null
+    var states = ArrayList<ProductState>()
+    var recyclerView: RecyclerView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detection)
@@ -50,6 +57,42 @@ class FoodDetection : AppCompatActivity(), View.OnClickListener {
         tvPlaceholder = findViewById(R.id.tvPlaceholder)
 
         captureImageFab.setOnClickListener(this)
+
+        dbManager = DbStaticManager(this)
+        try {
+            dbManager!!.createDb()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        dbManager!!.openDb()
+
+        recyclerView = findViewById(R.id.detectedProducts)
+        updateDetected(HashSet());
+    }
+
+    private fun updateDetected(productIds: HashSet<Long>) {
+        states.clear()
+        for (id in productIds) {
+            val product = dbManager!!.getProductById(states, id)
+            if (product != null) {
+                states.add(product)
+            }
+        }
+        updateAdapter()
+    }
+
+    private fun updateAdapter() {
+        recyclerView!!.adapter = DetectedProductStateAdapter(this, states, layoutInflater)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        dbManager!!.openDb()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        dbManager!!.closeDb()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -92,6 +135,25 @@ class FoodDetection : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private fun getResultIds(productName: String): Long {
+        return when (productName) {
+            "banana" -> 6370
+            "sandwich" -> 6242
+            "broccoli" -> 3251
+            "hot dog" -> 0
+//            ???????????????????????
+            "donut" -> 7595
+            "cake" -> 7868
+//            ???????????????????????
+            "pizza" -> 7593
+//            ???????????????????????
+            "carrot" -> 3592
+            "orange" -> 6359
+            "apple" -> 6676
+            else -> -1
+        }
+    }
+
     /**
      * runObjectDetection(bitmap: Bitmap)
      *      TFLite Object Detection function
@@ -112,20 +174,29 @@ class FoodDetection : AppCompatActivity(), View.OnClickListener {
         val results = detector.detect(image)
         debugPrint(results)
 
+        val productIdsSet = HashSet<Long>()
+
         val resultToDisplay = results.map {
             // Get the top-1 category and craft the display text
             val category = it.categories.first()
             val text = "${category.label}, ${category.score.times(100).toInt()}%"
 
+            val id = getResultIds(category.label)
+            productIdsSet.add(id)
+            val product = dbManager!!.getProductById(states, id)
+
             // Create a data object to display the detection result
-            DetectionResult(it.boundingBox, text)
+            DetectionResult(it.boundingBox, product.name)
         }
         // Draw the detection result on the bitmap and show it.
         val imgWithResult = drawDetectionResult(bitmap, resultToDisplay)
+//        this.runOnUiThread(java.lang.Runnable {
+//            inputImageView.setImageBitmap(imgWithResult)
+//        })
         runOnUiThread {
             inputImageView.setImageBitmap(imgWithResult)
+            updateDetected(productIdsSet)
         }
-
     }
 
     /**
