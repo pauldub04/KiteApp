@@ -119,6 +119,13 @@ public class FoodFragment extends Fragment {
             startActivity(toAdd);
         });
 
+        // detect food
+        FloatingActionButton btnDetect = rootView.findViewById(R.id.buttonDetect);
+        btnDetect.setOnClickListener(v -> {
+            Intent toAdd = new Intent(getActivity(), FoodDetection.class);
+            startActivity(toAdd);
+        });
+
         Button btnMoveLeft = rootView.findViewById(R.id.buttonMoveDayLeft);
         btnMoveLeft.setOnClickListener(v -> {
             moveDay(-1);
