@@ -173,7 +173,7 @@ class FoodDetection : AppCompatActivity(), View.OnClickListener {
             "banana" -> 6370
             "sandwich" -> 6242
             "broccoli" -> 3251
-            "hot dog" -> 0
+            "hot dog" -> 6243
 //            ???????????????????????
             "donut" -> 7595
             "cake" -> 7868
