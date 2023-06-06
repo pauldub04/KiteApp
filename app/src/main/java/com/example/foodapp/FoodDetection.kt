@@ -168,7 +168,7 @@ class FoodDetection : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun getResultIds(productName: String): Long {
+    private fun getResultId(productName: String): Long {
         return when (productName) {
             "banana" -> 6370
             "sandwich" -> 6242
@@ -208,13 +208,23 @@ class FoodDetection : AppCompatActivity(), View.OnClickListener {
         debugPrint(results)
 
         val productIdsSet = HashSet<Long>()
+        val resultsClear = mutableListOf<Detection>()
 
-        val resultToDisplay = results.map {
+        for (result in results) {
+            val category = result.categories.first()
+            val id = getResultId(category.label)
+            if (id != -1L)
+                resultsClear.add(result)
+            else
+                Log.e("OLEG", "skipping ${category}")
+        }
+
+        val resultToDisplay = resultsClear.map {
             // Get the top-1 category and craft the display text
             val category = it.categories.first()
-            val text = "${category.label}, ${category.score.times(100).toInt()}%"
+//            val text = "${category.label}, ${category.score.times(100).toInt()}%"
 
-            val id = getResultIds(category.label)
+            val id = getResultId(category.label)
             productIdsSet.add(id)
             val product = dbManager!!.getProductById(states, id)
 
